@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{#{% block title %}Dashboard{% endblock %}#}
+{% load static %}
+{% block cssblock %}
+    <link rel="stylesheet" href="{% static 'document/css/document_info.css' %}">
+{% endblock %}
+{#{% block content %}#}
+{##}
+{#{% if Issuance_Accounting %}#}
+{#<section class='document'>#}
+{#<div class="manufacter">Наименование организации: {{Issuance_Accounting.organization_name}}</div>#}
+{#<div class="document-number"><h1>Ведомость номер: {{Issuance_Accounting.id}}</h1></div>#}
+{#<div class="info">#}
+{#    <div class="l-info">Учета выдачи: {{Issuance_Accounting.product_name}}</div>#}
+{#    <div class="r-info">#}
+{#        <div class="codes"> Код вида выдачи: {{Issuance_Accounting.issue_code}}</div>#}
+{#        <div class="codes"> Код марки: {{Issuance_Accounting.brand_code}}</div>#}
+{#    </div>#}
+{#</div>#}
+{#<div class="date">за {{Issuance_Accounting.date}}</div>#}
+{#<div class="user-info">Материально ответственное лицо: <u>{{Issuance_Accounting.user.first_name}} {{Issuance_Accounting.user.last_name}}</u></div>#}
+{#<div class="user-number">Табельный номер: {{Issuance_Accounting.user.id}}</div>#}
+{#<div class="details"><table class="iksweb">#}
+{#	<tbody>#}
+{#		<tr>#}
+{#			<td colspan="2">Марка технического ср-ва</td>#}
+{#			<td rowspan="2">Гаражный(гос. номер) </td>#}
+{#			<td rowspan="2">Номер кузова</td>#}
+{#			<td rowspan="2">Ф.И.О</td>#}
+{#			<td rowspan="2">Показания спидометра</td>#}
+{#			<td rowspan="2">Остаток топлива в баке</td>#}
+{#		</tr>#}
+{#		<tr>#}
+{#			<td>Модель</td>#}
+{#			<td>Номер</td>#}
+{#		</tr>#}
+{#        {%for deliver in Detail_Info %} #}
+{#        <tr>#}
+{#			<td>{{deliver.car_model}}</td>#}
+{#			<td>{{deliver.car_numder}}</td>#}
+{#			<td>{{deliver.waybill_number}}</td>#}
+{#			<td>{{deliver.deliver_full_name}}</td>#}
+{#			<td>{{deliver.deliver_number}}</td>#}
+{#			<td>{{deliver.issued_by}}</td>#}
+{#			<td>#}
+{#                {% if deliver.is_recept == True %}Получено{%else %}Не получено{% endif %}</td>#}
+{#		</tr>#}
+{#        {% endfor %}#}
+{#	</tbody>#}
+{#</table></div>#}
+{#</section>#}
+{#{% endif %}#}
+{#{% endblock %}#}
+
+{% block content %}
+    {{ Cost_Accounting.user }}
+    <table class="iksweb">
+	<tbody>
+		<tr>
+			<td rowspan="2">Марка технического средства</td>
+			<td rowspan="2">Гаражный (гос.номер)</td>
+			<td rowspan="2">Номер кузова</td>
+			<td rowspan="2">Ф.И.О</td>
+			<td rowspan="2">Показания спидометра, км</td>
+			<td colspan="2">Остаток топлива</td>
+		</tr>
+		<tr>
+			<td>Марка топлива</td>
+			<td>кол-во, л</td>
+		</tr>
+        {% for deliver in Delivers %}
+
+		<tr>
+			<td>{{ deliver.brand_of_equipment }}</td>
+			<td>{{ deliver.garage_number }}</td>
+			<td>{{ deliver.body_number }}</td>
+			<td>{{ deliver.full_name }}</td>
+			<td>{{ deliver.speedometer_reading }}</td>
+			<td>{{ deliver.fuel_brand }}</td>
+			<td>{{ deliver.remaining_fuel }}</td>
+		</tr>
+        {% endfor %}
+	</tbody>
+</table>
+{% endblock %}

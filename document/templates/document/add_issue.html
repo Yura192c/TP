@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% load static %}
+{% block cssblock %}
+    <link rel="stylesheet" href="{% static 'document/css/document_info.css' %}">
+{% endblock %}
+{#{% load create_range from templatetag %}#}
+{% block content %}
+    {#    {% load templatetag %}#}
+
+
+    {#    <a href="{% url 'add_deliver'/3 %}"> asd </a>#}
+    <h1>{{ count }}/
+        <a href="{% url 'add_issance' %}?count={{ count }}">ADD</a>
+    </h1>
+
+    <form action="." method="post" class="add-issue-form">
+        <div class="issue-form">
+            <div class="main-form">
+                {{ form.as_p }}
+            </div>
+            {% for deliver_form in deliver_forms %}
+                <div class="delivers-form">
+                    <p>delivers</p>
+                    {{ deliver_form.as_p }}
+                </div>
+            {% endfor %}
+
+
+        </div>
+        <p><input type="submit" value="Отправить"></p>
+        {% csrf_token %}
+    </form>
+
+
+{% endblock %}

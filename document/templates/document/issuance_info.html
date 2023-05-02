@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% load static %}
+{% block cssblock %}
+    <link rel="stylesheet" href="{% static 'document/css/document_info.css' %}">
+{% endblock %}
+{% block content %}
+
+{% if Issuance_Accounting %}
+<section class='document'>
+<div class="manufacter">Наименование организации: {{Issuance_Accounting.organization_name}}</div>
+<div class="document-number"><h1>Ведомость номер: {{Issuance_Accounting.id}}</h1></div>
+<div class="info">
+    <div class="l-info">Учета выдачи: {{Issuance_Accounting.product_name}}</div>
+    <div class="r-info">
+        <div class="codes"> Код вида выдачи: {{Issuance_Accounting.issue_code}}</div>
+        <div class="codes"> Код марки: {{Issuance_Accounting.brand_code}}</div>
+    </div>
+</div>
+<div class="date">за {{Issuance_Accounting.date}}</div>
+<div class="user-info">Материально ответственное лицо: <u>{{Issuance_Accounting.user.first_name}} {{Issuance_Accounting.user.last_name}}</u></div>
+<div class="user-number">Табельный номер: {{Issuance_Accounting.user.id}}</div>
+<div class="details"><table class="iksweb">
+	<tbody>
+		<tr>
+			<td colspan="2">Автомобиль</td>
+			<td rowspan="2">Номер путевого листа</td>
+			<td rowspan="2">ФИО водителя</td>
+			<td rowspan="2">Табельный номер водителя</td>
+			<td rowspan="2">Выдано(цифрами)</td>
+			<td rowspan="2">Статус получения</td>
+		</tr>
+		<tr>
+			<td>Модель</td>
+			<td>Номер</td>
+		</tr>
+        {%for deliver in Detail_Info %} 
+        <tr>
+			<td>{{deliver.car_model}}</td>
+			<td>{{deliver.car_numder}}</td>
+			<td>{{deliver.waybill_number}}</td>
+			<td>{{deliver.deliver_full_name}}</td>
+			<td>{{deliver.deliver_number}}</td>
+			<td>{{deliver.issued_by}}</td>
+			<td>
+                {% if deliver.is_recept == True %}Получено{%else %}Не получено{% endif %}</td>
+		</tr>
+        {% endfor %}
+	</tbody>
+</table></div>
+</section>
+{% endif %}
+{% endblock %}
