@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% load static %}
+{% block cssblock %}
+    <link rel="stylesheet" href="{% static 'document/css/document_info.css' %}">
+{% endblock %}
+{% block content %}
+
+    {% if Issuance_Accounting %}
+        <section class='document'>
+            <form action="{% url 'edit_issue' slug=Issuance_Accounting.slug %}" method="post" id="edit-issue-form">
+                {% csrf_token %}
+{#            {% for field in form %}#}
+{#{{ form.as_p }}#}
+                <div class="manufacter">
+{#                                       <div class="name"> Наименование организации:</div>#}
+                    <label for="organization_name">Наименование организации:</label><br>
+{#                    <input type="text" id="organization_name" name="organization_name"#}
+{#                           value={{ Issuance_Accounting.organization_name }}>#}
+                    {{ form.organization_name }}
+                    {#                    {{ Issuance_Accounting.organization_name }}#}
+                </div>
+                <div class="document-number"><h1>Ведомость номер: {{ Issuance_Accounting.id }}</h1></div>
+                <div class="info">
+                    <div class="l-info">
+                        {#                        Учета выдачи:#}
+                        <label for="product_name">Учета выдачи:</label><br>
+{#                        <input type="text" id="product_name" name="product_name"#}
+{#                               value={{ Issuance_Accounting.product_name }}>#}
+                        {{ form.product_name }}
+                        {#                        {{ Issuance_Accounting.product_name }}#}
+                    </div>
+                    <div class="r-info">
+                        <div class="codes">
+                            {#                            Код вида выдачи: #}
+                            <label for="issue_code">Код вида выдачи: </label><br>
+{#                            <input type="text" id="issue_code" name="issue_code"#}
+{#                                   value={{ Issuance_Accounting.issue_code }}>#}
+                            {{ form.issue_code }}
+                            {#                            {{ Issuance_Accounting.issue_code }}#}
+                        </div>
+                        <div class="codes">
+                            {#                            Код марки:#}
+                            {#                            #}
+                            <label for="brand_code">Код марки:</label><br>
+                            <input type="text" id="brand_code" name="brand_code"
+                                   value={{ Issuance_Accounting.brand_code }}>
+                            {#                            {{ Issuance_Accounting.brand_code }}#}
+                        </div>
+                    </div>
+                </div>
+{#            {% endfor %}#}
+                <div class="date">за {{ Issuance_Accounting.date }}</div>
+                <div class="user-info">Материально ответственное лицо:
+                    <u>{{ Issuance_Accounting.user.first_name }} {{ Issuance_Accounting.user.last_name }}</u></div>
+                <div class="user-number">Табельный номер: {{ Issuance_Accounting.user.id }}</div>
+
+                <div class="details">
+                    <table class="iksweb">
+                        <tbody>
+                        <tr>
+                            <td colspan="2">Автомобиль</td>
+                            <td rowspan="2">Номер путевого листа</td>
+                            <td rowspan="2">ФИО водителя</td>
+                            <td rowspan="2">Табельный номер водителя</td>
+                            <td rowspan="2">Выдано(цифрами)</td>
+                            <td rowspan="2">Статус получения</td>
+                        </tr>
+                        <tr>
+                            <td>Модель</td>
+                            <td>Номер</td>
+                        </tr>
+                        {% for deliver_f in deliver_forms %}
+{#{{ deliver_f.as_table }}#}
+                            <tr>
+                            {% for field in deliver_f %}
+                                <td>
+                                {{ field }}
+{#                                {{ field.value }}#}
+{#                                    <label for="car_model_{{ forloop.counter }}"#}
+{#                                    style="display: none"></label><br>#}
+{#                            <input type="text" id="car_model_{{ forloop.counter }}"#}
+{#                                   name="car_model_{{ forloop.counter }}"#}
+{#                                   value={{ deliver.car_model }}>#}
+{#                                    {{ deliver_f. }}#}
+                                </td>
+                                {% endfor %}
+{#                                <td>{{ deliver.car_numder }}</td>#}
+{#                                <td>{{ deliver.waybill_number }}</td>#}
+{#                                <td>{{ deliver.deliver_full_name }}</td>#}
+{#                                <td>{{ deliver.deliver_number }}</td>#}
+{#                                <td>{{ deliver.issued_by }}</td>#}
+{#                                <td>#}
+{#                                    {% if deliver.is_recept == True %}Получено{% else %}Не получено{% endif %}</td>#}
+{#                            </tr>#}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            <p><input type="submit" value="Применить"></p>
+            </form>
+        </section>
+    {% endif %}
+{% endblock %}

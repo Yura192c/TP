@@ -10,8 +10,8 @@
 
 
     {#    <a href="{% url 'add_deliver'/3 %}"> asd </a>#}
-    <h1>{{ count }}/
-        <a href="{% url 'add_issance' %}?count={{ count }}">ADD</a>
+    <h1>Количество водителей: {{ count }}<br>
+        <a href="{% url 'add_issance' %}?count={{ count }}">Добавить водителя</a>
     </h1>
 
     <form action="." method="post" class="add-issue-form">

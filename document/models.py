@@ -27,10 +27,10 @@ class IssuanceAccounting(models.Model):
     def __str__(self):
         return self.organization_name
 
-    def save(self, *args, **kwargs):
-
-        self.slug = slugify(f'{kwargs["id"]} {kwargs["user"]} {kwargs["issue_code"]} {kwargs["product_name"]}')
-        super(IssuanceAccounting, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #
+    #     self.slug = slugify(f'{kwargs["issue_code"]} {kwargs["product_name"]} {kwargs["brand_code"]}')
+    #     super(IssuanceAccounting, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Выдача материалов'
@@ -43,6 +43,9 @@ class IssuanceAccounting(models.Model):
 
 
 class DetailInfo(models.Model):
+    """
+    Информация о водителе в выдаче ГСМ
+    """
     car_numder = models.CharField('Номер машины', max_length=15)
     car_model = models.CharField('Модель машины', max_length=15)
     waybill_number = models.PositiveIntegerField('Номер путевого листа')
