@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
@@ -16,7 +16,8 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse('Authenticated successfully')
+                    # return HttpResponse('Authenticated successfully')
+                    return redirect('show_documents')
                 else:
                     return HttpResponse('Disabled account')
             else:

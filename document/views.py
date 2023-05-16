@@ -8,6 +8,8 @@ from .forms import AddIssueForm, AddDetailInfoForm, EditDetailInfoForm, EditIssu
 import datetime
 import re
 
+from django.contrib.auth.decorators import login_required
+
 
 def create_slug(name: str) -> str:
     slug = name.lower().strip()
@@ -19,6 +21,7 @@ def create_slug(name: str) -> str:
 
 # Create your views here.
 
+@login_required
 def show_documents(request):
     """
     Представление для отображения всех документов
