@@ -16,7 +16,7 @@
                 <a href={% url 'show_documents' %}>Мои документы</a>
             </li>
             <li {% if section == "people" %}class="selected"{% endif %}>
-                <a href="#">Аккаунт</a>
+                <a href="{% url 'edit' %}">Аккаунт</a>
             </li>
         </ul>
     {% endif %}
@@ -26,6 +26,7 @@
     <a href="{% url "logout" %}">Выйти</a>
 {% else %}
     <a href="{% url "login" %}">Войти</a>
+    <a href="{% url "register" %}">Зарегистрироваться</a>
 {% endif %}
 </span>
 </div>

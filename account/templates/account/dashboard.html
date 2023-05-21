@@ -10,42 +10,46 @@
         <a href={% url 'add_issance' %}>+ Добавть новый</a>
     </div>
     {% if Issuance_Accounting %}
-{#        <ul>#}
-            <table class="iksweb">
-	<tbody>
-		<tr>
-			<td>Учета выдачи</td>
-			<td>Наименование организации</td>
-			<td>Ведомость номер</td>
-			<td>Код выдачи</td>
-			<td>Дата</td>
-		</tr>
-        {% for document in Issuance_Accounting %}
-		<tr>
-			<td><a href={{document.get_absolute_url}}>{{ document.product_name }}</a></td>
-			<td>{{ document.organization_name }}</td>
-			<td>{{ document.id }}</td>
-			<td>{{ document.issue_code }}</td>
-			<td>{{ document.date }}</td>
-		</tr>
-                {% endfor %}
-	</tbody>
-</table>
-{#                <li>#}
-{#                    <a href={{document.get_absolute_url}}>{{ document.product_name }}</a>#}
-{#                </li>#}
-
-{#        </ul>#}
+        {#        <ul>#}
+        <table class="iksweb">
+            <tbody>
+            <tr>
+                <td>Учета выдачи</td>
+                <td>Наименование организации</td>
+                <td>Ведомость номер</td>
+                <td>Код выдачи</td>
+                <td>Дата</td>
+                <td>Удалить</td>
+            </tr>
+            {% for document in Issuance_Accounting %}
+                <tr>
+                    <td><a href={{ document.get_absolute_url }}>{{ document.product_name }}</a></td>
+                    <td>{{ document.organization_name }}</td>
+                    <td>{{ document.id }}</td>
+                    <td>{{ document.issue_code }}</td>
+                    <td>{{ document.date }}</td>
+                    <td>
+                        <button>
+                            <a href="{% url 'delete_issue' slug=document.slug %}">Удалить</a>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% else %}
         <p>No documents have been added yet.</p>
     {% endif %}
     <h1>Расходы ГСМ</h1>
-{#    <a href={% url 'add_cost' %}>+ Добавть новый</a>#}
+    <a href={% url 'add_cost' %}>+ Добавть новый</a>
     {% if Cost_Accounting_Balances %}
         <ul>
             {% for document in Cost_Accounting_Balances %}
                 <li>
-                    <a href={{ document.get_absolute_url }}>{{ document.date}}</a>
+                    <a href={{ document.get_absolute_url }}>{{ document.date }}//{{ document.time }}</a>
+                    <button>
+                        <a href="{% url 'delete_cost' slug=document.slug %}">Удалить</a>
+                    </button>
                 </li>
             {% endfor %}
         </ul>

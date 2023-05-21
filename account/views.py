@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
-from account.forms import LoginForm, UserRegistrationForm
+from account.forms import LoginForm, UserRegistrationForm, UserEditForm
 
 
 def user_login(request):
@@ -57,3 +57,18 @@ def register(request):
     return render(request,
                   'account/register.html',
                   {'user_form': user_form})
+
+
+@login_required
+def edit(request):
+    if request.method == 'POST':
+        user_form = UserEditForm(instance=request.user,
+                                 data=request.POST)
+
+        if user_form.is_valid():
+            user_form.save()
+    else:
+        user_form = UserEditForm(instance=request.user)
+    return render(request,
+                  'account/edit.html',
+                  {'user_form': user_form,})
