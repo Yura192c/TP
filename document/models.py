@@ -69,6 +69,7 @@ class CostAccountingBalances(models.Model):
     Расход ГСМ
     '''
     date = models.DateField('Дата выдачи', auto_now_add=True, null=True)
+    time = models.TimeField('Время выдачи', auto_now_add=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=200, db_index=True, unique=True)
 
@@ -76,9 +77,17 @@ class CostAccountingBalances(models.Model):
         verbose_name = 'Сальдо по учету расходов'
         verbose_name_plural = 'Сальдо по учету расходов'
 
+    def __str__(self):
+        return f'{self.id}//{self.date}//{self.user}'
+
     def get_absolute_url(self):
         return reverse('cost_info',
                        args=[self.slug])
+    
+    # def save(self, *args, **kwargs):
+    
+    #     self.slug = slugify(f'{kwargs["user"]} {kwargs["date"]} {kwargs["id"]}')
+    #     super(CostAccountingBalances, self).save(*args, **kwargs)
 
 
 class DeliverDetail(models.Model):
@@ -98,3 +107,21 @@ class DeliverDetail(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+class Commision(models.Model):
+    '''
+    Комиссия в составе выдачи ГСМ
+    '''
+    position = models.CharField('Должность', max_length=100)
+    full_name = models.CharField('ФИО', max_length=200)
+    cost = models.ForeignKey(CostAccountingBalances, verbose_name='Учет расходов', on_delete=models.CASCADE,
+                             null=True)
+
+    class Meta:
+        verbose_name = 'Комиссия выдачи'
+        verbose_name_plural = 'Комиссия выдачи'
+
+    # def get_absolute_url(self):
+    #     return reverse('commision_info',
+    #                    args=[self.slug])

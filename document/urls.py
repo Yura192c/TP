@@ -9,6 +9,10 @@ urlpatterns = [
     path('edit/<slug:slug>', views.edit_issue, name='edit_issue'),
     path('cost/<slug:cost_slug>', views.cost_info, name='cost_info'),
     path('create/', views.add_issuance, name='add_issance'),
-    path('create-cost/', views.add_issuance, name='add_cost'),
+    path('create_cost/', views.add_cost, name='add_cost'),
+    path('edit_cost/<slug:slug>', views.edit_cost_accounting, name='edit_cost'),
+    path('delete/<slug:slug>', views.delete_issue, name='delete_issue'),
+    path('delete_cost/<slug:slug>', views.delete_cost_accounting, name='delete_cost'),
+    # path('create-cost/', views.add_issuance, name='add_cost'),
     # path('add_deliver/<int:count>', views.add_deliver, name='add_deliver'),
 ]

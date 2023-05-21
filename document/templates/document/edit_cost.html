@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Редактирование выдачи{% endblock %}
+{% load static %}
+{% block cssblock %}
+    <link rel="stylesheet" href="{% static 'document/css/document_info.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Акт снятия остатков топлива в баках транспортных средств</h1>
+    <h3 class="date">за {{ Cost_Accounting.date }}</h3>
+    <form action="" method="post">
+        <div class="content">
+            <h4 class="cost-name">Коммисия в составе:</h4>
+
+            {% csrf_token %}
+            <div class="form-group">
+                {% for form in commission_form %}
+                    <label for="position">Должность</label>
+                    {% for field in form %}
+                        {{ field }}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+        </div>
+        {{ Cost_Accounting.user }}
+        <table class="iksweb">
+            <tbody>
+            <tr>
+                <td rowspan="2">Марка технического средства</td>
+                <td rowspan="2">Гаражный (гос.номер)</td>
+                <td rowspan="2">Номер кузова</td>
+                <td rowspan="2">Ф.И.О</td>
+                <td rowspan="2">Показания спидометра, км</td>
+                <td colspan="2">Остаток топлива</td>
+            </tr>
+            <tr>
+                <td>Марка топлива</td>
+                <td>кол-во, л</td>
+            </tr>
+
+            {% for deliver in deliver_detail_forms %}
+                <tr>
+                    {% for field in deliver %}
+                        <td>
+                            {{ field }}
+                        </td>
+
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+        <p><input type="submit" value="Отправить"></p>
+    </form>
+{% endblock %}

@@ -7,25 +7,31 @@
 
 {% block content %}
     <h1>Акт снятия остатков топлива в баках транспортных средств</h1>
-    <h3 class="date">за {{ Cost_Accounting.date }}</h3>
+    <form action="" method="post">
+    {% csrf_token %}
+    <h3 class="date">за {{ date }}</h3>
     <div class="content">
-        <h4 class="cost-name">Коммисия в составе:</h4>
+        <h4 class="cost-name">Коммисия в составе:    
+            <button>
+            <a href="{% url 'add_cost'%}?count_commission={{count_commission}}&count_delivers={{count_delivers}}&com=True">Добавить</a>
+        </button></h4>
         <div class="commission">
-            {% for commission in Commission %}
+            {% for com_form in commission_forms %}
                 <div class="commission-item">
-                    <div class="commission-item-position">
+                    {{ com_form.as_p }}
+                    <!-- <div class="commission-item-position">
                         <u>{{ commission.position }}</u>
                         <p class="bottom-text">(Должность)</p>
                     </div>
                     <div class="commission-item-name">
                         <u>{{ commission.full_name }}</u>
                         <p class="bottom-text">(ФИО)</p>
-                    </div>
+                    </div> -->
                 </div>
             {% endfor %}
         </div>
     </div>
-    {{ Cost_Accounting.user }}
+    <!-- {{ Cost_Accounting.user }} -->
     <table class="iksweb">
         <tbody>
         <tr>
@@ -40,21 +46,27 @@
             <td>Марка топлива</td>
             <td>кол-во, л</td>
         </tr>
-        {% for deliver in Delivers %}
-
-            <tr>
-                <td>{{ deliver.brand_of_equipment }}</td>
+        {% for deliver in deliver_forms %}
+        <tr>
+{% for field in deliver %}
+            
+                <!-- <td>{{ deliver.brand_of_equipment }}</td>
                 <td>{{ deliver.garage_number }}</td>
                 <td>{{ deliver.body_number }}</td>
                 <td>{{ deliver.full_name }}</td>
                 <td>{{ deliver.speedometer_reading }}</td>
                 <td>{{ deliver.fuel_brand }}</td>
-                <td>{{ deliver.remaining_fuel }}</td>
-            </tr>
+                <td>{{ deliver.remaining_fuel }}</td> -->
+                <td>{{ field }}</td>
+            
+            {% endfor %}
+        </tr>
         {% endfor %}
         </tbody>
     </table>
     <button>
-    <a href="{% url 'edit_cost' slug=Cost_Accounting.slug %}">Редактировать</a>
-</button>
+        <a href="{% url 'add_cost'%}?count_commission={{count_commission}}&count_delivers={{count_delivers}}&del=True">Добавить</a>
+    </button></h4>
+    <p><input type="submit" value="Отправить"></p>
+</form>
 {% endblock %}

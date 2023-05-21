@@ -74,3 +74,70 @@ class EditDetailInfoForm(forms.Form):
 
 class AddCostAccountingBalancesForm(forms.Form):
     pass
+
+
+class AddDeliverDetailForm(forms.Form):
+    """ Форма для добавления детальной информации о выдаче ГСМ"""
+
+    def __init__(self, number=1, *args, **kwargs):
+        super(AddDeliverDetailForm, self).__init__(*args, **kwargs)
+        self.fields[f'brand_of_equipment_{number}'] = forms.CharField(label='Марка технического средства', max_length=100)
+        self.fields[f'garage_number_{number}'] = forms.CharField(label='Гаражный(гос.) номер', max_length=100)
+        self.fields[f'body_number_{number}'] = forms.CharField(label='Номер кузова', max_length=100)
+        self.fields[f'full_name_{number}'] = forms.CharField(label='ФИО водителя', max_length=100)
+        self.fields[f'speedometer_reading_{number}'] = forms.IntegerField(label='Показания спидометра', min_value=0)
+        self.fields[f'fuel_brand_{number}'] = forms.CharField(label='Марка топлива', max_length=100)
+        self.fields[f'remaining_fuel_{number}'] = forms.IntegerField(label='Остаток топлива', min_value=0)
+
+
+    #
+    # brand_of_equipment = forms.CharField(label='Марка технического средства', max_length=100)
+    # garage_number = forms.CharField(label='Гаражный(гос.) номер', max_length=100)
+    # body_number = forms.CharField(label='Номер кузова', max_length=100)
+    # full_name = forms.CharField(label='ФИО водителя', max_length=100)
+    # speedometer_reading = forms.IntegerField(label='Показания спидометра', min_value=0)
+    # fuel_brand = forms.CharField(label='Марка топлива', max_length=100)
+    # remaining_fuel = forms.IntegerField(label='Остаток топлива', min_value=0)
+
+
+class AddCommisionForm(forms.Form):
+    """ Форма для добавления состава комиссии учета выдачи ГСМ"""
+    def __init__(self, number=1, *args, **kwargs):
+        super(AddCommisionForm, self).__init__(*args, **kwargs)
+        self.fields[f'position_{number}'] = forms.CharField(label='Должность', max_length=100)
+        self.fields[f'com_full_name_{number}'] = forms.CharField(label='ФИО', max_length=200)
+    # position = forms.CharField(label='Должность', max_length=100)
+    # com_full_name = forms.CharField(label='ФИО', max_length=200)
+
+
+class EditCommisionForm(forms.Form):
+    """ Форма для редактирования состава комиссии учета выдачи ГСМ """
+
+    def __init__(self, CommisionModel=None, number=1, *args, **kwargs):
+        super(EditCommisionForm, self).__init__(*args, **kwargs)
+        self.fields[f'position_{number}'] = forms.CharField(label='Должность', max_length=100,
+                                                            initial=CommisionModel.position)
+        self.fields[f'com_full_name_{number}'] = forms.CharField(label='ФИО', max_length=200,
+                                                             initial=CommisionModel.full_name)
+
+
+class EditDeliverDetailForm(forms.Form):
+    """ Форма редактирвония информации о водителях в выдаче ГСМ """
+
+    def __init__(self, DeliverDetailModel=None, number=1, *args, **kwargs):
+        super(EditDeliverDetailForm, self).__init__(*args, **kwargs)
+        self.fields[f'brand_of_equipment_{number}'] = forms.CharField(label='Марка технического средства',
+                                                                      max_length=100,
+                                                                      initial=DeliverDetailModel.brand_of_equipment)
+        self.fields[f'garage_number_{number}'] = forms.CharField(label='Гаражный(гос.) номер', max_length=100,
+                                                                 initial=DeliverDetailModel.garage_number)
+        self.fields[f'body_number_{number}'] = forms.CharField(label='Номер кузова', max_length=100,
+                                                               initial=DeliverDetailModel.body_number)
+        self.fields[f'full_name_{number}'] = forms.CharField(label='ФИО водителя', max_length=100,
+                                                             initial=DeliverDetailModel.full_name)
+        self.fields[f'speedometer_reading_{number}'] = forms.IntegerField(label='Показания спидометра', min_value=0,
+                                                                          initial=DeliverDetailModel.speedometer_reading)
+        self.fields[f'fuel_brand_{number}'] = forms.CharField(label='Марка топлива', max_length=100,
+                                                              initial=DeliverDetailModel.fuel_brand)
+        self.fields[f'remaining_fuel_{number}'] = forms.IntegerField(label='Остаток топлива', min_value=0,
+                                                                     initial=DeliverDetailModel.remaining_fuel)

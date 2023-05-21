@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import DetailInfo, IssuanceAccounting, DeliverDetail, CostAccountingBalances
+from .models import DetailInfo, IssuanceAccounting, DeliverDetail, CostAccountingBalances, Commision
+# from document import models
 
 
 # Register your models here.
@@ -35,9 +36,14 @@ class DeliverDetailAdmin(admin.ModelAdmin):
 
 @admin.register(CostAccountingBalances)
 class CostAccountingBalancesAdmin(admin.ModelAdmin):
-    list_display = ('user', 'date', 'slug',)
-    list_filter = ('user', 'date',)
+    list_display = ('user', 'date', 'time', 'slug',)
+    list_filter = ('user',)
     search_fields = ('user', 'deliver', 'date',)
     empty_value_display = '-пусто-'
 
-    prepopulated_fields = {'slug': ('user', 'id',)}
+    # prepopulated_fields = {'slug': ('user', 'time',)}
+
+@admin.register(Commision)
+class CommisionAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'position', 'cost')
+    list_filter = ('full_name', 'position', 'cost')
