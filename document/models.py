@@ -121,7 +121,3 @@ class Commision(models.Model):
     class Meta:
         verbose_name = 'Комиссия выдачи'
         verbose_name_plural = 'Комиссия выдачи'
-
-    # def get_absolute_url(self):
-    #     return reverse('commision_info',
-    #                    args=[self.slug])

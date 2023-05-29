@@ -1,6 +1,5 @@
 from django.test import TestCase
-from django.urls import resolve
-from document.models import IssuanceAccounting, CostAccountingBalances, DetailInfo, DeliverDetail
+from document.models import IssuanceAccounting, CostAccountingBalances, DetailInfo, DeliverDetail, Commision
 from account.models import CustomUser
 
 
@@ -128,21 +127,6 @@ class DetailInfoModelTest(TestCase):
         self.assertEquals(expected_object_name, str(detail_info))
 
 
-class CostAccountingBalancesModelTest(TestCase):
-    # @classmethod
-    # def setUpTestData(cls):
-    #     # Set up non-modified objects used by all test methods
-    #     CustomUser.objects.create(username='testuser', password='12345')
-    #     CostAccountingBalances.objects.create(user=CustomUser.objects.get(id=1),
-    #                                       product_name='test',
-    #                                       issue_code='test_issue_code',
-    #                                       brand_code='test_brand_code',
-    #                                       organization_name='test_organization_name',
-    #                                       slug='test_slug'
-    #                                       )
-    pass
-
-
 class DeliverDetailModelTest(TestCase):
 
     @classmethod
@@ -150,7 +134,6 @@ class DeliverDetailModelTest(TestCase):
         # Set up non-modified objects used by all test methods
         CustomUser.objects.create(username='testuser', password='12345')
         CostAccountingBalances.objects.create(user=CustomUser.objects.get(id=1))
-
 
         deliver_detail = DeliverDetail.objects.create(brand_of_equipment='test_brand_of_equipment',
                                                       garage_number='test_garage_number',
@@ -205,3 +188,25 @@ class DeliverDetailModelTest(TestCase):
         deliver_detail = DeliverDetail.objects.get(id=1)
         expected_object_name = f'{deliver_detail.full_name}'
         self.assertEquals(expected_object_name, str(deliver_detail))
+
+
+class CommissionModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        CustomUser.objects.create(username='testuser', password='12345')
+        CostAccountingBalances.objects.create(user=CustomUser.objects.get(id=1))
+        Commision.objects.create(full_name='test_full_name',
+                                 position='test_position',
+                                 cost=CostAccountingBalances.objects.get(id=1))
+
+    def test_full_name_label(self):
+        commission = Commision.objects.get(id=1)
+        field_label = commission._meta.get_field('full_name').verbose_name
+        self.assertEquals(field_label, 'ФИО')
+
+    def test_position_label(self):
+        commission = Commision.objects.get(id=1)
+        field_label = commission._meta.get_field('position').verbose_name
+        self.assertEquals(field_label, 'Должность')

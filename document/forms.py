@@ -90,16 +90,6 @@ class AddDeliverDetailForm(forms.Form):
         self.fields[f'remaining_fuel_{number}'] = forms.IntegerField(label='Остаток топлива', min_value=0)
 
 
-    #
-    # brand_of_equipment = forms.CharField(label='Марка технического средства', max_length=100)
-    # garage_number = forms.CharField(label='Гаражный(гос.) номер', max_length=100)
-    # body_number = forms.CharField(label='Номер кузова', max_length=100)
-    # full_name = forms.CharField(label='ФИО водителя', max_length=100)
-    # speedometer_reading = forms.IntegerField(label='Показания спидометра', min_value=0)
-    # fuel_brand = forms.CharField(label='Марка топлива', max_length=100)
-    # remaining_fuel = forms.IntegerField(label='Остаток топлива', min_value=0)
-
-
 class AddCommisionForm(forms.Form):
     """ Форма для добавления состава комиссии учета выдачи ГСМ"""
     def __init__(self, number=1, *args, **kwargs):

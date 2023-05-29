@@ -1,6 +1,8 @@
 from django.test import TestCase
-from document.forms import AddIssueForm, EditIssueForm, AddDetailInfoForm, EditDetailInfoForm
-from document.models import IssuanceAccounting, DetailInfo, CostAccountingBalances, DeliverDetail
+from document.forms import AddIssueForm, EditIssueForm, AddDetailInfoForm, EditDetailInfoForm, AddDeliverDetailForm, \
+    AddCommisionForm, EditCommisionForm, EditDeliverDetailForm
+from document.models import IssuanceAccounting, DetailInfo, CostAccountingBalances, DeliverDetail, \
+    Commision
 from account.models import CustomUser
 
 
@@ -91,3 +93,88 @@ class EditDetailInfoFormTest(TestCase):
                   form['deliver_number_1'].value(),
                   form['issued_by_1'].value()]
         self.assertSequenceEqual(expected, actual)
+
+
+class AddDeliverDetailFormTest(TestCase):
+
+    def test_form_has_fields(self):
+        form = AddDeliverDetailForm(1)
+        expected = ['brand_of_equipment_1', 'garage_number_1', 'body_number_1', 'full_name_1', 'speedometer_reading_1',
+                    'fuel_brand_1', 'remaining_fuel_1']
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)
+
+
+class AddCommissionFormTest(TestCase):
+
+    def test_form_has_fields(self):
+        form = AddCommisionForm(1)
+        expected = ['position_1', 'com_full_name_1', ]
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)
+
+
+class EditCommissionFormTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        id = CustomUser.objects.create(username='testuser', password='12345').id
+        cost_id = CostAccountingBalances.objects.create(
+            user=CustomUser.objects.get(id=id),
+            slug='test_slug', ).id
+        Commision.objects.create(position='test_position',
+                                 full_name='test_com_full_name',
+                                 cost=CostAccountingBalances.objects.get(id=cost_id))
+
+    def test_form_has_fields(self):
+        form = EditCommisionForm(Commision.objects.get(id=1), 1)
+        expected = ['position_1', 'com_full_name_1', ]
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)
+
+    def test_form_correct_data_in_fields(self):
+        form = EditCommisionForm(Commision.objects.get(id=1), 1)
+        expected = ['test_position', 'test_com_full_name']
+        actual = [form['position_1'].value(),
+                  form['com_full_name_1'].value()]
+        self.assertSequenceEqual(expected, actual)
+
+
+class EditDeliverDetailsForm(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        id = CustomUser.objects.create(username='testuser', password='12345').id
+        cost_id = CostAccountingBalances.objects.create(
+            user=CustomUser.objects.get(id=id),
+            slug='test_slug', ).id
+        DeliverDetail.objects.create(brand_of_equipment='test_brand_of_equipment',
+                                     garage_number='test_garage_number',
+                                     body_number='test_body_number',
+                                     full_name='test_full_name',
+                                     speedometer_reading=12345,
+                                     fuel_brand='test_fuel_brand',
+                                     remaining_fuel=12345,
+                                     cost=CostAccountingBalances.objects.get(id=cost_id))
+
+    def test_form_has_fields(self):
+        form = EditDeliverDetailForm(DeliverDetail.objects.get(id=1), 1)
+        expected = ['brand_of_equipment_1', 'garage_number_1', 'body_number_1', 'full_name_1', 'speedometer_reading_1',
+                    'fuel_brand_1', 'remaining_fuel_1']
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)
+
+    def test_form_correct_data_in_fields(self):
+        form = EditDeliverDetailForm(DeliverDetail.objects.get(id=1), 1)
+        expected = ['test_brand_of_equipment', 'test_garage_number', 'test_body_number', 'test_full_name', 12345,
+                    'test_fuel_brand', 12345]
+        actual = [form['brand_of_equipment_1'].value(),
+                  form['garage_number_1'].value(),
+                  form['body_number_1'].value(),
+                  form['full_name_1'].value(),
+                  form['speedometer_reading_1'].value(),
+                  form['fuel_brand_1'].value(),
+                  form['remaining_fuel_1'].value()]
+        self.assertSequenceEqual(expected, actual)
+
+
